@@ -5,13 +5,13 @@ export class TodoItemView extends View {
 		console.log('exampleView.template()', data);
 
 		return `
-			<li data-guid="${data.guid}">
+			<li data-guid="${data[0].guid}">
 				<div class="view">
 					<input class="toggle" type="checkbox" />
-					<label>${data.title}</label>
+					<label>${data[0].title}</label>
 					<button class="destroy"></button>
 				</div>
-				<input class="edit" value="${data.title}" />
+				<input class="edit" value="${data[0].title}" />
 			</li>
 		`;
 	}

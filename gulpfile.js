@@ -21,4 +21,8 @@ gulp.task('build:todo', function() {
   .pipe(gulp.dest('./src'));
 });
 
-gulp.task('default', ['build:todo']);
+gulp.task('watch', function() {
+  gulp.watch(['./src/*.js', '!./src/todo.js'], ['build:todo']);
+});
+
+gulp.task('default', ['build:todo', 'watch']);
