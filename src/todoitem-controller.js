@@ -22,11 +22,12 @@ export class TodoItemController extends Controller {
 	changeState(event) {
 		console.log('todoItemController.changeState()');
 
+		// Need to be able to instantiate multiple controllers so that this.element can be used again...
 		let isCompleted = $(event.currentTarget).prop('checked');
 
-		$(this.element).toggleClass('completed', isCompleted);
+		$(event.currentTarget).parent(this.element).parent().toggleClass('completed', isCompleted);
 
-		TodoModel.updateOrCreate( {guid: this.element.data('guid')}, {isCompleted} );
+		TodoModel.updateOrCreate( {guid: $(event.currentTarget).parent(this.element).parent().data('guid')}, {isCompleted} );
 	}
 
 	editTitle(event) {
@@ -34,7 +35,7 @@ export class TodoItemController extends Controller {
 
 		event.preventDefault();
 
-		$(this.element).addClass('editing');
+		$(event.currentTarget).parent(this.element).parent().addClass('editing');
 		$(event.currentTarget).focus();
 	}
 
@@ -43,10 +44,10 @@ export class TodoItemController extends Controller {
 
 		let title = $(event.currentTarget).val();
 
-		$(this.element).removeClass('editing');
+		$(event.currentTarget).parent(this.element).parent().removeClass('editing');
 
-		$(this.selectors.titleLabel).text(title);
+		$(this.selectors.titleLabel, this.element).text(title);
 
-		TodoModel.updateOrCreate( {guid: this.element.data('guid')}, {title} );
+		TodoModel.updateOrCreate( {guid: $(event.currentTarget).parent(this.element).parent().data('guid')}, {title} );
 	}
 }
