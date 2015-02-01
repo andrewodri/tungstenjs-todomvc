@@ -35,7 +35,7 @@ export class TodoItemController extends Controller {
 
 		event.preventDefault();
 
-		$(event.currentTarget).parent(this.element).parent().addClass('editing');
+		$(event.currentTarget).addClass('editing');
 		$(event.currentTarget).focus();
 	}
 
@@ -44,10 +44,16 @@ export class TodoItemController extends Controller {
 
 		let title = $(event.currentTarget).val();
 
-		$(event.currentTarget).parent(this.element).parent().removeClass('editing');
+		$(event.currentTarget).removeClass('editing');
 
 		$(this.selectors.titleLabel, this.element).text(title);
 
-		TodoModel.updateOrCreate( {guid: $(event.currentTarget).parent(this.element).parent().data('guid')}, {title} );
+		TodoModel.updateOrCreate( {guid: $(event.currentTarget).parent(this.element).data('guid')}, {title} );
+	}
+
+	destroy(event) {
+		console.log('todoItemController.destroy()');
+
+		TodoModel.firstOrNew( {guid: $(event.currentTarget).parent(this.element).data('guid')} ).delete();
 	}
 }
